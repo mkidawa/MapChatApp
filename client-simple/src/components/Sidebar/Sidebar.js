@@ -9,6 +9,7 @@ import Button from "../Button/Button";
 import "./Sidebar.style.scss";
 import { UserContext } from "../../services/userContext";
 import { Link } from "react-router-dom";
+import NightToggler from "../NightToggler/NightToggler";
 
 const SidebarMessage = ({ children }) => {
   return (
@@ -43,7 +44,8 @@ const SidebarArea = ({ heading, children }) => {
 
 class Sidebar extends Component {
   state = {
-    sidebarOpen: false
+    sidebarOpen: false,
+    darkMode: false
   };
 
   getUserName(userState = {user: {}}) {
@@ -55,7 +57,7 @@ class Sidebar extends Component {
 
   renderAccountsActions(userState, {logOut = () => null}) {
     if (!userState.user)
-      return <p className="sidebar__acc-actions"><a href="/login" className="sidebar__link">Login</a> or <a href="/register" className="sidebar__link">register</a> if you don't have an account yet!</p>;
+      return <p className={this.state.darkMode ? "sidebar__dark-acc-actions" : "sidebar__acc-actions"}><a href="/login" className="sidebar__link">Login</a> or <a href="/register" className="sidebar__link">register</a> if you don't have an account yet!</p>;
     else {
       // DK: NOBODY GOT TIME FOR THAT（╯°□°）╯︵ ┻━┻
       // eslint-disable-next-line jsx-a11y/anchor-is-valid
@@ -63,7 +65,12 @@ class Sidebar extends Component {
     }
   }
 
+  toggleDarkMode = () => {
+    this.setState({darkMode: !this.state.darkMode});
+  }
+
   render() {
+    const { darkMode } = this.state;
     const { sidebarOpen } = this.state;
     const isActive = sidebarOpen ? "is-active" : "";
 
@@ -73,8 +80,8 @@ class Sidebar extends Component {
           <img src={MenuIconSvg} alt="" />
         </button>
 
-        <section className={"sidebar " + isActive}>
-          <header className="sidebar__header">
+        <section className={"sidebar " + isActive} style={this.state.darkMode ? {backgroundColor: "#7c7c7c"} : {backgroundColor: "#443060"} }>
+          <header className={this.state.darkMode ? "sidebar__dark-header" : "sidebar__header"}>
             <UserContext.Consumer>
               {({ logOut, userState }) => <>
                 <Link to="/">
@@ -98,6 +105,7 @@ class Sidebar extends Component {
                 ) : (
                   <Button href="/register" variant="primary" additionalClass="sidebar__btn" isLink>Create Account</Button>
                 )}
+                <NightToggler isChecked={darkMode} toggleNightMode={this.toggleDarkMode} />
               </footer>
             </>}
           </UserContext.Consumer>

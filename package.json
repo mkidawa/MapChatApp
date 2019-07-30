@@ -17,5 +17,7 @@
     "husky": "^2.3.0"
   },
   "husky": {},
-  "dependencies": {}
+  "dependencies": {
+    "bad-words": "^3.0.3"
+  }
 }

@@ -165,7 +165,6 @@ class Home extends Component {
             {this.renderAllChatrooms()}
           </div>
         </section>
-
         {this.renderModal()}
       </div>
     );

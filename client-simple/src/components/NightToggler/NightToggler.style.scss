@@ -1,0 +1,54 @@
+@import '../../styles/variables';
+
+.nighttoggler {
+  width: 40px;
+  height: 14px;
+  position: relative;
+
+  &__wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-left: 70%;
+    cursor: pointer;
+  }
+
+  &__checkbox {
+    opacity: 0;
+    width: 0;
+    height: 0;
+
+    &:checked + .nighttoggler__lever::before {
+      background-color: #eee;
+      transform: translateX(30px);
+    }
+  }
+
+  &__lever {
+    position: absolute;
+    cursor: pointer;
+    background-color: $color-whiteblue-dark;
+    border-radius: 20px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transition: .4s;
+
+    &::before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      border-radius: 50%;
+      left: -5px;
+      top: -3px;
+      background-color: #4e4e4e;
+      transition: .2s;
+    }
+  }
+
+  &__icon {
+    height: 20px;
+  }
+}
