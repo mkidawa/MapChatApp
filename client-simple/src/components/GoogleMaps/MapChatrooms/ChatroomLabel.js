@@ -3,7 +3,16 @@ import MarkerWithLabel from "react-google-maps/lib/components/addons/MarkerWithL
 import { withRouter } from "react-router-dom";
 
 class ChatroomLabel extends Component {
+  state = {
+    weather: {
+      temperature: null,
+      main: null,
+      description: null,
+    }
+  }
+  
   gotoChatroom(evt, roomId) {
+
     evt.preventDefault();
     evt.stopPropagation();
 
@@ -16,6 +25,7 @@ class ChatroomLabel extends Component {
   render() {
     const { chatroom: { _id, name, description, latitude, longitude } } = this.props;
 
+    
     return <MarkerWithLabel
       position={{ lat: latitude, lng: longitude }}
       labelClass="chatrooms-map__label"
@@ -25,6 +35,9 @@ class ChatroomLabel extends Component {
       <div className="chatrooms-map__label-content">
         <h2 className="chatrooms-map__label-title">#{name}</h2>
         {description ? <p>{description}</p> : ""}
+        <h3>Weather:</h3>
+        <h4>Temp: {this.state.weather.temperature}C</h4>
+        <h4>Desc: {this.state.weather.description}</h4>
       </div>
     </MarkerWithLabel>;
   }
