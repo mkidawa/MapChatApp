@@ -80,7 +80,7 @@ class Sidebar extends Component {
           <img src={MenuIconSvg} alt="" />
         </button>
 
-        <section className={"sidebar " + isActive} style={this.state.darkMode ? {backgroundColor: "#7c7c7c"} : {backgroundColor: "#443060"} }>
+        <section className={"sidebar " + isActive} style={this.state.darkMode ? {backgroundColor: "#7c7c7c"} : {backgroundColor: "#6e0505"} }>
           <header className={this.state.darkMode ? "sidebar__dark-header" : "sidebar__header"}>
             <UserContext.Consumer>
               {({ logOut, userState }) => <>

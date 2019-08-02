@@ -48,7 +48,6 @@ class Chat extends Component {
     this.setState({
       showEmojiPicker: !this.state.showEmojiPicker,
     });
-    console.log(this.state.showEmojiPicker);
   }
 
   addEmoji = (emoji) => {
