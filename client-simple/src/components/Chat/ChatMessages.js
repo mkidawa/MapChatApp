@@ -5,6 +5,7 @@ import _ from "lodash";
 import { Message, MessageText } from "../Message/Message";
 import withSocket from "../withSocket";
 import withUserContext from "../withUserContext";
+import Filter from "bad-words";
 
 class ChatMessages extends Component {
   state = {
@@ -12,6 +13,9 @@ class ChatMessages extends Component {
     guestId: localStorage.getItem("guest_ID") || null,
     guestName: localStorage.getItem("guest_Username") || null
   };
+
+  Filter = require("bad-words");
+  filter = new Filter();
 
   loggedUserId = () => _.get(this.props, ["context", "userState", "user", "id"], null);
 
@@ -42,7 +46,7 @@ class ChatMessages extends Component {
 
     return (
       <Message key={message._id} author={getMsgAuthorNickname()} toRight={isMsgOfMine} timestamp={message.createdAt}>
-        <MessageText variant={(isMsgOfMine) ? "primary" : ""}>{message.msg}</MessageText>
+        <MessageText variant={(isMsgOfMine) ? "primary" : ""}>{this.filter.clean(message.msg)}</MessageText>
       </Message>
     );
   };

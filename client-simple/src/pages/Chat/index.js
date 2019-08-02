@@ -10,12 +10,17 @@ import withSocket from "../../components/withSocket";
 import "./Chat.style.scss";
 import _ from "lodash";
 import withUserContext from "../../components/withUserContext";
+import { Smile } from "react-feather";
+import { Picker } from "emoji-mart";
+import "emoji-mart/css/emoji-mart.css";
+
 
 class Chat extends Component {
   state = {
     inputMessageText: "",
     guestId: localStorage.getItem("guest_ID") || null,
-    guestName: localStorage.getItem("guest_Username") || null
+    guestName: localStorage.getItem("guest_Username") || null,
+    showEmojiPicker: false,
   };
 
   loggedUserId = () => _.get(this.props, ["context", "userState", "user", "id"], null);
@@ -39,6 +44,22 @@ class Chat extends Component {
     return true;
   };
 
+  toggleEmojiPicker = () => {
+    this.setState({
+      showEmojiPicker: !this.state.showEmojiPicker,
+    });
+    console.log(this.state.showEmojiPicker);
+  }
+
+  addEmoji = (emoji) => {
+    const { inputMessageText } = this.state;
+    const text = `${inputMessageText}${emoji.native}`;
+    this.setState({
+      inputMessageText: text,
+      showEmojiPicker: false,
+    });
+  }
+
   emitJoinSocketRoomRequest = chatId => {
     const { socket } = this.props;
     socket.emit("join", chatId);
@@ -48,9 +69,9 @@ class Chat extends Component {
     const { inputMessageText: msg, guestId, guestName } = this.state;
     const { chatId: chatroom } = this.props.match.params;
     const loggedUserId = this.loggedUserId();
-    
+
     return {
-      ...((loggedUserId) ? {from: loggedUserId} : {guestId, guestName}),
+      ...((loggedUserId) ? { from: loggedUserId } : { guestId, guestName }),
       msg,
       chatroom,
       nickname: this.loggedUserName() || guestName || "Unknown User"
@@ -65,8 +86,8 @@ class Chat extends Component {
       const { mutate } = this.props;
 
       if (inputMessageText.length > 0) {
-        this.setState({inputMessageText: ""});
-        return mutate({variables: this.prepareDataForMutation()});
+        this.setState({ inputMessageText: "" });
+        return mutate({ variables: this.prepareDataForMutation() });
       } else {
         message.error("Message is empty");
       }
@@ -82,6 +103,7 @@ class Chat extends Component {
   render() {
     const { inputMessageText } = this.state;
     const { match, chatroom } = this.props;
+    const { showEmojiPicker } = this.state;
 
     return (
       <div className="page">
@@ -101,7 +123,17 @@ class Chat extends Component {
             </div>
 
             <div className="chat__footer">
+              {showEmojiPicker ? (
+                <Picker set="emojione" onSelect={this.addEmoji} />
+              ) : null}
               <form className="form chat__form" onSubmit={this.handleFormSubmit}>
+                <button
+                  type="button"
+                  className="toggle-emoji"
+                  onClick={this.toggleEmojiPicker}
+                >
+                  <Smile />
+                </button>
                 <textarea
                   value={inputMessageText}
                   name="message"
@@ -109,7 +141,7 @@ class Chat extends Component {
                   className="chat__textarea"
                   placeholder="Enter your message here..."
                   onKeyPress={this.onEnterPress}
-                  onChange={e => this.setState({inputMessageText: e.target.value})}
+                  onChange={e => this.setState({ inputMessageText: e.target.value })}
                 />
                 <Button variant="primary" additionalClass="chat__btn">Send</Button>
               </form>
@@ -142,8 +174,8 @@ const ADD_MESSAGE = gql`
 `;
 
 const withCurrentChatroom = graphql(GET_CURRENT_CHATROOM, {
-  options: (props) => ({ variables: { _id: props.match.params.chatId }}),
-  props: ({data: {chatroom, ...others}}) => ({chatroom: {...others, ...chatroom}})
+  options: (props) => ({ variables: { _id: props.match.params.chatId } }),
+  props: ({ data: { chatroom, ...others } }) => ({ chatroom: { ...others, ...chatroom } })
 });
 
 const withAddMessage = graphql(ADD_MESSAGE);

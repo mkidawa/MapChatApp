@@ -69,3 +69,31 @@
     }
   }
 }
+
+.toggle-emoji {
+  border: none;
+  height: auto;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  margin-bottom: 0;
+  background-color: $color-white;
+  border-radius: 3px 3px 3px 3px;
+  transition: 0.3s ease-in;
+}
+
+.toggle-emoji:hover{
+  background-color: rgba($color: #575656, $alpha: 0.1);
+  cursor: pointer;
+  svg{
+    color: #575656;
+  }
+
+}
+
+.toggle-emoji svg {
+  width: 28px;
+  height: 28px;
+  color: #aeaeae;
+}
+

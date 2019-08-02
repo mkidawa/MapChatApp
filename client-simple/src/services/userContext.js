@@ -84,7 +84,6 @@ const _UserProvider = props => {
     return await getUser();
   };
 
-
   function _handleAuthError(err, user) {
     console.warn("Auth error: ", err);
     setUserState({
