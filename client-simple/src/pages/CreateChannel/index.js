@@ -2,14 +2,18 @@ import React, { Component } from "react";
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
 import { withRouter } from "react-router-dom";
-import { message } from "antd";
+import { message, DatePicker } from "antd";
 import { FormInput, FormFooterText } from "../../components/Form/Form";
 import Button from "../../components/Button/Button";
 import MapLocationPicker from "../../components/GoogleMaps/MapLocationPicker/MapLocationPicker";
 import "./CreateChannel.style.scss";
 
 class Step1 extends Component {
-  state = { validTitle: false }
+  state = { validTitle: false,
+    startDate: "",
+    endDate: "",
+    game: ""
+  }
 
   valueValid() {
     const { validTitle } = this.state;
@@ -33,6 +37,14 @@ class Step1 extends Component {
     }
   }
 
+  handleStartChange = () => {
+  
+  }
+
+  handleEndChange = () => {
+  
+  }
+
   render() {
     const { canGoNext, title, description, onDescriptionChange, nextStep } = this.props;
     const { validTitle } = this.state;
@@ -41,7 +53,7 @@ class Step1 extends Component {
 
     return (
       <div className="page__wrapper page__wrapper--absolute steps__wrapper">
-        <h1 className="form__heading">Create Channel</h1>
+        <h1 className="form__heading">Create LAN</h1>
 
         <FormInput
           label="Channel Title"
@@ -56,7 +68,26 @@ class Step1 extends Component {
           placeholder="Cool things about your channel..."
           value={description}
           onChange={onDescriptionChange} />
-
+        <div className="date__wrapper">
+          <label className="date__label">
+            Start date:
+          </label>
+          <DatePicker
+            className = "date__picker" 
+            selected={this.state.startDate}
+            selectsStart
+            onChange={this.handleStartChange}/>
+        </div>
+        <div>
+          <label className="date__label">
+            End date:
+          </label>
+          <DatePicker 
+            className = "date__picker" 
+            selected={this.state.endDate}
+            selectsEnd
+            onChange={this.handleEndChange}/>
+        </div>
         <Button variant="primary" additionalClass={nextStepBtnClasses}
           onClick={(e) => this.valueValid() && canGoNext() && nextStep(e)}>Next Step</Button>
 
@@ -109,7 +140,7 @@ class CreateChannel extends Component {
     channelTitle: "",
     channelDescription: "",
     channelLocation: "",
-    isValid: true
+    isValid: true,
   }
 
   canSubmitForm  = () => {
@@ -122,8 +153,8 @@ class CreateChannel extends Component {
     e.preventDefault();
 
     if (this.canSubmitForm()) {
-      const { channelTitle, channelDescription, channelLocation} = this.state;
-      const chatroom = {name: channelTitle, description: channelDescription, ...channelLocation};
+      const { channelTitle, channelDescription, channelLocation, startDate, endDate, game} = this.state;
+      const chatroom = {name: channelTitle, description: channelDescription, ...channelLocation, startDate, endDate, game};
 
       if (createChannel) {
         const {data: {createNewChatroom: newChatroomId}} = await createChannel({variables: {chatroom}});

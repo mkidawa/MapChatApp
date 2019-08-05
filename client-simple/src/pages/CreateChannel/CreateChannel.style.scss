@@ -54,6 +54,17 @@
   }
 }
 
+.date{
+
+  &__wrapper{
+    margin: 2rem 0;
+  }
+
+  &__label{
+    padding-right: 1rem;
+  }
+}
+
 // Media queries
 @media (min-width: 600px) {
   .maps {

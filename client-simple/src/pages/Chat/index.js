@@ -123,7 +123,7 @@ class Chat extends Component {
 
             <div className="chat__footer">
               {showEmojiPicker ? (
-                <Picker style={{ position: "absolute", bottom:"80px", left: "325px",  }} set="emojione"  onSelect={this.addEmoji} />
+                <Picker style={{ position: "absolute", bottom:"80px", left: "325px" }} set="emojione"  onSelect={this.addEmoji} />
               ) : null}
               <form className="form chat__form" onSubmit={this.handleFormSubmit}>
                 <button
