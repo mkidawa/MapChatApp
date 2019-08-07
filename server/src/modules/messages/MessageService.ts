@@ -2,6 +2,9 @@ import {ModelType, Ref} from "typegoose";
 import MessageModel, { Message } from "./MessageEntity";
 import {User} from "../user/UserEntity";
 import {ChatRoom} from '../chatrooms/ChatRoomEntity';
+import * as Filter from "bad-words";
+
+const filter = new Filter();
 
 export class MessageService {
   private readonly model: ModelType<Message>;
@@ -29,6 +32,6 @@ export class MessageService {
   }
 
   async addMessage(from: Ref<User>, msg: String, chatroom: Ref<ChatRoom>, guestId: String, guestName: String) {
-    return this.model.create({from, msg, chatroom, guestId, guestName}).then((createdMessage) => createdMessage)
+    return this.model.create({from, msg : filter.clean(msg), chatroom, guestId, guestName}).then((createdMessage) => createdMessage)
   }
 }
