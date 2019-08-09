@@ -3,6 +3,7 @@ import { Form, FormInput, FormFooterText } from "../../components/Form/Form";
 import Button from "../../components/Button/Button";
 import "./Register.style.scss";
 import { UserContext } from "../../services/userContext";
+import PasswordStrengthMeter from "./PasswordStrengthMeter/PasswordStrengthMeter";
 
 class Register extends Component {
   state = {
@@ -84,6 +85,7 @@ class Register extends Component {
                 value={password}
                 type="password"
                 onChange={e => this.setState({password: e.target.value})} />
+              <PasswordStrengthMeter className="password__meter" password={password} />  
               <Button variant="primary" additionalClass="form__btn">Register</Button>
               {errorMsg ? <p className="form__error">{errorMsg}</p> : ""}
             </Form>
