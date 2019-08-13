@@ -73,7 +73,7 @@ class Sidebar extends Component {
     const { darkMode } = this.state;
     const { sidebarOpen } = this.state;
     const isActive = sidebarOpen ? "is-active" : "";
-
+    this.props.changeMode;  
     return (
       <>
         <button className="sidebar__toggler" onClick={() => this.setState({sidebarOpen: !this.state.sidebarOpen}) }>

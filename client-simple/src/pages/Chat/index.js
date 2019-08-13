@@ -21,6 +21,7 @@ class Chat extends Component {
     guestId: localStorage.getItem("guest_ID") || null,
     guestName: localStorage.getItem("guest_Username") || null,
     showEmojiPicker: false,
+    darkMode: false,
   };
 
   loggedUserId = () => _.get(this.props, ["context", "userState", "user", "id"], null);
@@ -99,14 +100,19 @@ class Chat extends Component {
     }
   };
 
+  darkModeHandler = () => {
+    this.setState({darkMode: !this.state.darkMode});
+    console.log(this.state.darkMode);
+  }
+
   render() {
-    const { inputMessageText } = this.state;
+    const { inputMessageText, darkMode } = this.state;
     const { match, chatroom } = this.props;
     const { showEmojiPicker } = this.state;
 
     return (
       <div className="page">
-        <Sidebar>
+        <Sidebar changeMode={() => {this.darkModeHandler;}}>
           <ChatUsers loggedUserId={this.loggedUserId()} match={match} chatroom={chatroom} />
         </Sidebar>
 
