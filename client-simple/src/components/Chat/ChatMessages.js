@@ -5,6 +5,7 @@ import _ from "lodash";
 import { Message, MessageText } from "../Message/Message";
 import withSocket from "../withSocket";
 import withUserContext from "../withUserContext";
+import {NotificationContainer, NotificationManager} from "react-notifications";
 
 class ChatMessages extends Component {
   state = {
@@ -25,7 +26,23 @@ class ChatMessages extends Component {
     this.scrollToBottomElement.scrollIntoView({behavior: "smooth"});
   }
 
-  handleIncomingMessage = msg => this.setState({messages: [...this.state.messages, msg]});
+  handleIncomingMessage = msg => {
+    this.setState({
+      messages: [...this.state.messages, msg]
+    });
+
+    if (msg.from._id !== this.loggedUserId() && msg.from._id !== this.state.guestId) {
+      let checkedMessage = "";
+
+      if (msg.msg.length > 20) {
+        checkedMessage = msg.msg.substring(0, 20);
+      } else {
+        checkedMessage = msg.msg;
+      }
+
+      NotificationManager.success(checkedMessage, msg.from.nickname, 10000);
+    }
+  };
 
   renderMessage = (message) => {
     const {guestId } = this.state;
@@ -56,6 +73,7 @@ class ChatMessages extends Component {
       <>
         {newPreviousAndNewMessages.map((message) => this.renderMessage(message))}
         <div ref={el => {this.scrollToBottomElement = el; }} />
+        <NotificationContainer/>
       </>
     );
   }
