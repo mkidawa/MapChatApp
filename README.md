@@ -7,5 +7,5 @@ Ten folder to dobre miejsce by uruchomić komendę `npm run install:all`, ale wi
 - [Serwer](/server/README.md)
 - [Klient](/client-simple/README.md)
 
-### Informacje nt. środowiska
-Projekt był sprawdzany dla node.js w wersji 10 (i odpowiadającemu mu npm w wersji 6)ł
+### Informacje nt środowiska
+Projekt był sprawdzany dla node.js w wersji 10 (i odpowiadającemu mu npm w wersji 6)
